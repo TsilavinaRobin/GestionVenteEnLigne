@@ -35,6 +35,7 @@ namespace MyStore.Controllers
              
 
         }
+        //Cette fonction affiche la liste des articles 
         public ActionResult Article(int? page,int? id,string ms="")
         {
                 MyStoreEntities4 db = new MyStoreEntities4();
