@@ -19,7 +19,8 @@ namespace MyStore.Controllers
                                     
         public ActionResult Index(int? page,string ms="")
         {
-           
+           try
+            {
                 MyStoreEntities4 db = new MyStoreEntities4();
 
             List<VENDEUR> VendeurList = new List<VENDEUR>();
@@ -31,8 +32,11 @@ namespace MyStore.Controllers
             ViewBag.Mon = ms;
 
             return View(VendeurList.ToPagedList(pageNumber, pageSize));
-             
-             
+            }  
+              catch
+            {
+                return RedirectToAction("HttpNotFoun", "ACCUEIL");
+            }
 
         }
         //Cette fonction affiche la liste des articles 
