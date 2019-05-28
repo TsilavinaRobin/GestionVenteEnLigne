@@ -540,7 +540,23 @@ namespace MyStore.Controllers
         //    return RedirectToAction("Terminer", new { III = IDPANIER });
 
         //}
-       
+       public void modification( int val, int IdGenre)
+       {
+            using (SqlConnection SqlCon = new SqlConnection(connectionString))
+            {
+                SqlCon.Open();
+                    MyStoreEntities4 b = new MyStoreEntities4();
+                    GENRE g = new GENRE();
+                        g = b.GENRE.Where(x => x.IdGenre == IdGenre).First();
+                        int NbrGenre1 = (Convert.ToInt32(g.NbrGenre) - Convert.ToInt32(NbrGenre));
+                        string query = "UPDATE GENRE SET IdPanier='" + val + "' where IdGenre='" + IdGenre + "' ";
+                        SqlCommand SqlCom = new SqlCommand(query, SqlCon);
+                    IDPANIER = val;
+                    ViewBag.MonParam1 = IDPANIER;
+                    ANDRANA.IDPANIER = IDPANIER;
+                    SqlCom.ExecuteNonQuery();
+            }  
+       }
         public ActionResult Panier(int IdGenre,int? NbrGenre)
         {
             try
@@ -560,23 +576,7 @@ namespace MyStore.Controllers
             {
            
                 // ViewBag.Gen = IdGenre;
-                using (SqlConnection SqlCon = new SqlConnection(connectionString))
-            {
-                SqlCon.Open();
-                    MyStoreEntities4 b = new MyStoreEntities4();
-                    GENRE g = new GENRE();
-                    //g = b.GENRE.Where(x => x.IdGenre == IdGenre).First();
-                    //int NbrGenre1 = (Convert.ToInt32(g.NbrGenre) - Convert.ToInt32(NbrGenre));
-                    //string query = "UPDATE GENRE SET IdPanier='" + val + "',NbrGenre='" + NbrGenre1 + "',NbrAch='" + NbrGenre + "' where IdGenre='" + IdGenre + "' ";
-                        g = b.GENRE.Where(x => x.IdGenre == IdGenre).First();
-                        int NbrGenre1 = (Convert.ToInt32(g.NbrGenre) - Convert.ToInt32(NbrGenre));
-                        string query = "UPDATE GENRE SET IdPanier='" + val + "' where IdGenre='" + IdGenre + "' ";
-                        SqlCommand SqlCom = new SqlCommand(query, SqlCon);
-                    IDPANIER = val;
-                    ViewBag.MonParam1 = IDPANIER;
-                    ANDRANA.IDPANIER = IDPANIER;
-                    SqlCom.ExecuteNonQuery();
-            }
+           modification(1,IdGenre);
                 
                 return RedirectToAction("Terminer", new { III = IDPANIER, N = NbrGenre });
             }
@@ -586,22 +586,7 @@ namespace MyStore.Controllers
                 PANIER p1 = new PANIER();
                 p1 = b.PANIER.ToList().Last();
                 val = p1.IdPanier + 1;
-                using (SqlConnection SqlCon = new SqlConnection(connectionString))
-                {
-                    SqlCon.Open();
-                   
-                    GENRE g = new GENRE();
-                    g = b.GENRE.Where(x => x.IdGenre == IdGenre).First();
-                        //int NbrGenre1=(Convert.ToInt32(g.NbrGenre) - Convert.ToInt32(NbrGenre));
-                        //  string query = "UPDATE GENRE SET IdPanier='"+val+"',NbrGenre='"+ NbrGenre1 + "',NbrAch='"+NbrGenre+"' where IdGenre='" + IdGenre + "' ";
-                        int NbrGenre1 = (Convert.ToInt32(g.NbrGenre) - Convert.ToInt32(NbrGenre));
-                        string query = "UPDATE GENRE SET IdPanier='" + val + "' where IdGenre='" + IdGenre + "' ";
-                        SqlCommand SqlCom = new SqlCommand(query, SqlCon);
-                    IDPANIER = val;
-                    ViewBag.MonParam1 = IDPANIER;
-                    ANDRANA.IDPANIER = IDPANIER;
-                    SqlCom.ExecuteNonQuery();
-                }
+                    modification(val,IdGenre);
                 ViewBag.K = IdGenre;
                 ViewBag.S = NbrGenre;
                 //return View();
